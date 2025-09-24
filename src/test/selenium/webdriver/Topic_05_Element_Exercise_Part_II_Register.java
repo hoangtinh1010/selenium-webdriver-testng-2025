@@ -2,20 +2,20 @@ package selenium.webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
 
 import java.time.Duration;
 
-public class RegisterTest {
+public class Topic_05_Element_Exercise_Part_II_Register {
     WebDriver driver;
 
-    By txtFullName = By.xpath("//input[@id='txtFirstname']");
-    By txtEmail = By.xpath("//input[@id='txtEmail']");
-    By txtCfEmail = By.xpath("//input[@id='txtCEmail']");
-    By txtPassword = By.xpath("//input[@id='txtPassword']");
-    By txtCfPassword = By.xpath("//input[@id='txtCPassword']");
-    By txtPhoneNumber = By.xpath("//input[@id='txtPhone']");
+
+    By txtFullName = By.id("txtFirstname");
+    By txtEmail = By.id("txtEmail");
+    By txtCfEmail = By.id("txtCEmail");
+    By txtPassword = By.id("txtPassword");
+    By txtCfPassword = By.id("txtCPassword");
+    By txtPhoneNumber = By.id("txtPhone");
     By registerButton = By.xpath("//button[@type='submit' and text()='ĐĂNG KÝ']");
     By checkBox = By.xpath("//input[@id='chkRight']");
     By btnRegister = By.xpath("//button[@type='submit' and text()='ĐĂNG KÝ']");
@@ -29,14 +29,17 @@ public class RegisterTest {
     By errorPhoneNumber = By.id("txtPhone-error");
 
 
-    @BeforeTest
-    public void setup() {
-        driver = new ChromeDriver();
-        driver.get("https://alada.vn/tai-khoan/dang-ky.html");
+    @BeforeClass
+    public void beforeClass() {
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
     }
 
+    @BeforeMethod
+    public void beforeMethod() {
+        driver.get("https://alada.vn/tai-khoan/dang-ky.html");
+    }
 
     @Test
     public void TC01_register_with_empty_data() {
@@ -138,6 +141,11 @@ public class RegisterTest {
         driver.findElement(registerButton).click();
         // Add assertions to verify error messages for each required field
         assert driver.findElement(errorPhoneNumber).getText().equals("Số điện thoại phải từ 10-11 số.");
+
+        driver.findElement(txtPhoneNumber).clear();
+        driver.findElement(txtPhoneNumber).sendKeys("4567899999");
+        driver.findElement(registerButton).click();
+        assert driver.findElement(errorPhoneNumber).getText().equals("Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019 - 088 - 03 - 05 - 07 - 08");
 
     }
 
