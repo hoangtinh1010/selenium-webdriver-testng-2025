@@ -5,7 +5,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.idealized.Javascript;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -14,7 +13,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Random;
 
-public class Topic_08_Textbox_TextArea {
+public class Topic_06_Textbox_TextArea {
     WebDriver driver;
     JavascriptExecutor jsExecutor;
     String loginPageUrl,homepagePageUrl,userID, userPassword,customerID;
