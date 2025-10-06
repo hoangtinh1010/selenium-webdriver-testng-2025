@@ -62,8 +62,6 @@ public class Topic_13_Frame_Iframe {
         By surveyFormFrame = By.cssSelector("div#formTemplateContainer>iframe");
         driver.switchTo().frame(driver.findElement(surveyFormFrame));
 
-        //Nhập First name/ Last name/ Address/ Email/ Phone
-
         //Step 2: Chọn Year, Residence và Gender và click button Submit
         select = new Select(driver.findElement(By.id("RESULT_RadioButton-2")));
         select.selectByVisibleText("Junior");
