@@ -2,17 +2,22 @@ package selenium.webdriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Set;
 
 public class Topic_14_Windown_Tab {
     WebDriver driver;
+    Select select;
+
 
     @BeforeClass
     public void beforeClass() {
@@ -161,6 +166,55 @@ public class Topic_14_Windown_Tab {
 
         //Step 8: Verify kết quả hiển thị đúng với từ khóa đã nhập
         Assert.assertTrue(driver.findElement(By.xpath("//div[@data-id='cald4']//span[@class='hw dhw']")).getText().contains("automation"));
+    }
+
+    @Test
+    public void TC_04_Course_Window_Title() {
+        //Step 1: Truy cập trang https://courses.dce.harvard.edu/
+        driver.get("https://courses.dce.harvard.edu/");
+        String idHomePage = driver.getWindowHandle();
+
+        //Step 2: Click vào Student Login
+        driver.findElement(By.xpath("//a[@data-action='login']")).click();
+
+        //Step 3: Switch window Student Login
+        switchToWindowByID(idHomePage);
+
+        //Step 4: Verify màn hình Login Portal hiển thị
+        Assert.assertEquals(driver.getTitle(),"Harvard Division of Continuing Education Login Portal");
+
+        //Step 5: Close cửa sổ Login và Switch về trang home trước đó
+        closeAllWindowWithoutParent(idHomePage);
+
+        //Step 6: Verify màn hình "Authentication was not successful" hiển thị
+        Assert.assertTrue(driver.findElement(By.cssSelector("p.sam-wait__message")).isDisplayed());
+
+        //Step 7: Close popup Authentication Login và nhập ca thông tin hợp lệ vào ô Search
+        driver.findElement(By.cssSelector("button.sam-wait__close")).click();
+
+        //Nhập các thông tin vào ô Search
+        String keywordSearch = "data science";
+        driver.findElement(By.cssSelector("input#crit-keyword")).sendKeys(keywordSearch);
+        select =new Select(driver.findElement(By.cssSelector("select#crit-srcdb")));
+        select.selectByVisibleText("Extension All Terms 2025-2026");
+
+        select = new Select(driver.findElement(By.cssSelector("select#crit-session")));
+        select.selectByVisibleText("Full Term");
+        driver.findElement(By.cssSelector("button#search-button")).click();
+        sleepInSecond(3);
+
+        //Step 8: Verify thông tin Course hiển thị
+        List<WebElement> courseNames = driver.findElements(By.cssSelector("span.result__title"));
+
+        //Verify list course title chứa từ khóa Data Science
+        for (WebElement course : courseNames) {
+            System.out.println(course.getText().toLowerCase());
+            Assert.assertTrue(course.getText().toLowerCase().contains(keywordSearch));
+
+        }
+        //Verify số lượng Course hiển thị =  Số course hiển thị ở trên UI
+        Assert.assertEquals(courseNames.size(),Integer.parseInt(driver.findElement(By.cssSelector("div.panel__info-bar-text>strong")).getText()));
+
     }
 
     // CÓ TỂ VIẾT THÀNH 1 HÀM KHI NÀO MUỐN DÙNG THÌ GỌI HÀM ĐÓ RA
