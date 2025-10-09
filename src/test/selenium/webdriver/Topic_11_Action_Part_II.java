@@ -154,10 +154,10 @@ public class Topic_11_Action_Part_II {
         Point targetLocation = target.getLocation();
 
         // Make Mouse coordinate center of element
-        sourceLocation.x += 20 + xCentreSource;
-        sourceLocation.y += 110 + yCentreSource;
-        targetLocation.x += 20 + xCentreTarget;
-        targetLocation.y += 110 + yCentreTarget;
+//        sourceLocation.x += 20 + xCentreSource;
+//        sourceLocation.y += 110 + yCentreSource;
+//        targetLocation.x += 20 + xCentreTarget;
+//        targetLocation.y += 110 + yCentreTarget;
 
         // Move mouse to drag from location
         robot.mouseMove(sourceLocation.x, sourceLocation.y);
